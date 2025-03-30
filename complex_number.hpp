@@ -118,13 +118,24 @@ operator*(const T r, const complex_number<T>& c)
 
 template<typename T> // consente l'output del numero complesso differenziando a seconda del valore della parte immaginaria
 	ostream& operator<<(std::ostream& os,const complex_number<T>& c) {
-		if (c.parte_immaginaria()<0)
-		{
-			os << c.parte_reale() << "-" <<abs(c.parte_immaginaria()) <<"i";
+		T image = c.parte_immaginaria();
+		T real = c.parte_reale();
+		if (real == 0 & image ==0) { os << 0;} // tratto il caso di vettore nullo
+		else if (real==0 & image!=0){ // tratto il caso di numero immaginario
+			if (image<0){
+				if (image==-1) {os<<"-i";}
+				else {os <<"-" << abs(image) << "i";} 
+			}
+			else{
+				if (image==1) {os<<"i";}
+				else {os << image << "i";}
+				}
 		}
-		else 
-			{
-			os << c.parte_reale() << "+" <<c.parte_immaginaria() <<"i";
+		else if (real!=0 & image==0){os << real ;} // tratto il caso di numero reale
+		else{
+			if (image<0) {os << real << " - "<<abs(image) << "i";}
+			else {os << real << " + " << image << "i";}
+				
 		}
 		return os;
 	}
