@@ -18,6 +18,7 @@ int main(void) {
 	cout <<c3<<endl;
 	com c4(6.0); //reale
 	cout<<c4<<endl;
+	cout << c3.inverso() <<endl;
 	double d = 5.0;
 	// verifichiamo i vari metodi
 	cout<< "la parte reale del numero " << c1 << " è " << c1.parte_reale()<<endl;

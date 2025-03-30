@@ -5,7 +5,7 @@ using namespace std;
 
 // definiamo la classe dei numeri complessi, definizione e operazioni base
 
-template<typename T> requires std::floating_point<T> // gestiamo i valori di input imponendo che siano di tipo float o double
+template<typename T> requires floating_point<T> // gestiamo i valori di input imponendo che siano di tipo float o double
 class complex_number {
 	T real, imaginary;   // prende in input due valori che rappresentanto parte reale e parte immaginaria
 public :
@@ -32,13 +32,19 @@ public :
 		return complex_number<T>(real, -imaginary);	//restituisce il coniugato del numero passato in input
 	}
 	
-	complex_number <T> inverso(void) const{       // restituisce l'inverso (z -> z^-1)
-		return complex_number<T>(real/(real*real+imaginary*imaginary), -imaginary/(real*real+imaginary*imaginary));
+	T modulo(void) const {
+		return sqrt(real*real + imaginary*imaginary);			// restituisce il modulo del numero complesso
+	}
+	complex_number <T> inverso(void)    {       // restituisce l'inverso (z -> z^-1)
+		if (modulo()== 0)
+		{cerr <<"non puoi fare la divisione per 0:"<<endl;}
+		return complex_number<T>(real/(modulo()*modulo()), -imaginary/(modulo()*modulo()));
+		//else 
+		//{ cerr << "non puoi calcolare l'inverso di 0!";}
+		//return 1;
 	}
 	
-	T modulo(void) const{
-		return sqrt(real*real + imaginary*imaginary);			// restituisce la parte reale del numero
-	}
+	
 	
 	
 	complex_number& operator+=(const complex_number& other) { // somma al numero complesso in oggetto
@@ -121,7 +127,7 @@ template<typename T> // consente l'output del numero complesso differenziando a 
 		T image = c.parte_immaginaria();
 		T real = c.parte_reale();
 		if (real == 0 & image ==0) { os << 0;} // tratto il caso di vettore nullo
-		else if (real==0 & image!=0){ // tratto il caso di numero immaginario
+		else if (real==0 && image!=0){ // tratto il caso di numero immaginario
 			if (image<0){
 				if (image==-1) {os<<"-i";}
 				else {os <<"-" << abs(image) << "i";} 
@@ -131,7 +137,7 @@ template<typename T> // consente l'output del numero complesso differenziando a 
 				else {os << image << "i";}
 				}
 		}
-		else if (real!=0 & image==0){os << real ;} // tratto il caso di numero reale
+		else if (real!=0 && image==0){os << real ;} // tratto il caso di numero reale
 		else{
 			if (image<0) {os << real << " - "<<abs(image) << "i";}
 			else {os << real << " + " << image << "i";}
